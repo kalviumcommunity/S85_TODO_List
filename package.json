@@ -1,15 +1,19 @@
 {
   "name": "s85_todo_list",
   "version": "1.0.0",
+  "description": "ASAP TODO List is a task management application built using the MERN stack (MongoDB, Express.js, React, Node.js). It helps users efficiently manage their tasks by prioritizing them based on urgency.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kalviumcommunity/S85_TODO_List.git"
+  },
   "author": "Shivansh Garg",
   "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "express": "^4.21.2",
-    "mongoose": "^8.9.5"
-  }
+  "bugs": {
+    "url": "https://github.com/kalviumcommunity/S85_TODO_List/issues"
+  },
+  "homepage": "https://github.com/kalviumcommunity/S85_TODO_List#readme"
 }
