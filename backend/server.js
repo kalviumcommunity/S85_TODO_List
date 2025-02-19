@@ -1,21 +1,22 @@
 const express = require('express');
-// const connectDB = require('./db/db'); // Import DB connection
-require('dotenv').config(); // Load .env variables
+const connectDB = require('./db/db'); // DB Connection
+
+// require('dotenv').config({ path: './config/.env' });
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../backend/config/.env') });
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Connect to MongoDB
-// connectDB();
+app.use(express.json());
 
-// Basic /ping route
+// Connect to MongoDB
+connectDB();
+
 app.get('/ping', (req, res) => {
   res.send('Pong');
 });
 
-// Start server
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
-
-
