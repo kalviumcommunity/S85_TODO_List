@@ -1,0 +1,21 @@
+meta {
+  name: User Post
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:3000/api/users/users
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Ashish Garg",
+    "email": "Ashish@example.com",
+    "password": "password",
+    "createdAt": "2024-02-16T12:00:00Z",
+    "updatedAt": "2024-02-16T12:00:00Z"
+  }
+}
