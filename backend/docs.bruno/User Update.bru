@@ -1,0 +1,22 @@
+meta {
+  name: User Update
+  type: http
+  seq: 6
+}
+
+put {
+  url: http://localhost:3000/api/users/users/67bd50209c07a343c289b945
+  body: json
+  auth: none
+}
+
+headers {
+  Key: Content-Type
+  Value: application/json
+}
+
+body:json {
+  {
+    "name": "Sejal Jaswal"
+  }
+}
