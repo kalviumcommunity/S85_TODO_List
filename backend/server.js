@@ -1,8 +1,9 @@
 const express = require('express');
-const app = express();
 const connectDB = require('./db/db');
 const mongoose = require('mongoose');
 const path = require('path');
+
+const app = express();
 require('dotenv').config({ path: path.resolve(__dirname, './config/.env') });
 
 const port = process.env.PORT || 3000;
