@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd backend && nodemon server.js"
+    "start": "cd backend && nodemon server.js",
+    "publish": "wrangler publish",
+    "deploy": "wrangler deploy"
   },
   "repository": {
     "type": "git",
@@ -25,5 +27,8 @@
     "express": "^4.21.2",
     "mongoose": "^8.10.1",
     "nodemon": "^3.1.9"
+  },
+  "devDependencies": {
+    "wrangler": "^3.113.0"
   }
 }
