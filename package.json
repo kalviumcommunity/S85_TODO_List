@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd backend && nodemon server.js",
+    "backend": "cd backend && nodemon server.js",
+    "frontend": "cd frontend && npm run dev",
     "publish": "wrangler publish",
     "deploy": "wrangler deploy"
   },
