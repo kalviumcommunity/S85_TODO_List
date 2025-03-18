@@ -1,20 +1,17 @@
 import "./index.css";
 import ASAPCard from "./components/ASAPCard";
-import TodoItem from "./components/TODOItem";
+import TodoItem from "./components/TodoItem";
+import TodoList from "./components/TodoList";
+import ErrorBoundary from "./components/ErrorBoundary"; // Import the Error Boundary
 
 function App() {
-
-  const dummyTodo = {
-    task: "Complete ASAP Project",
-    status: "pending"
-  };
-
-  return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 space-y-6">
-      <ASAPCard />
-      <TodoItem {...dummyTodo} />
-    </div>
-  );
+    return (
+        <ErrorBoundary>
+            <div className="flex flex-col justify-center items-center min-h-screen space-y-6 bg-[url('/background.jpg')] bg-cover bg-center bg-no-repeat">
+                <TodoList />
+            </div>
+        </ErrorBoundary>
+    );
 }
 
 export default App;
