@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import TodoItem from "./TodoItem";
+import API_BASE_URL from "../config";
 
 const TodoList = () => {
     const [todos, setTodos] = useState([]);
@@ -16,7 +17,8 @@ const TodoList = () => {
         try {
             const token = localStorage.getItem("token");  // Get token from localStorage
     
-            const response = await fetch("http://localhost:5000/api/todos", {
+            // const response = await fetch("http://localhost:5000/api/todos", {
+            const response = await fetch(`${API_BASE_URL}/api/todos`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -36,7 +38,6 @@ const TodoList = () => {
         }
     };
     
-
     const handleAddTodo = async () => {
         const token = localStorage.getItem("token");
         const newTodo = {
@@ -46,7 +47,7 @@ const TodoList = () => {
         };
     
         try {
-            const response = await fetch("http://localhost:5000/api/todos", {
+            const response = await fetch(`${API_BASE_URL}/api/todos`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -59,29 +60,88 @@ const TodoList = () => {
     
             const data = await response.json();
             console.log("Task added:", data);
+    
+            // Clear input fields
+            setTask("");
+            setDescription("");
+            setDueDate("");
+    
+            // Refresh todos after adding
+            fetchTodos();
         } catch (error) {
             console.error("Failed to add task:", error);
         }
     };
     
 
+    // const handleAddTodo = async () => {
+    //     const token = localStorage.getItem("token");
+    //     const newTodo = {
+    //         title: task,
+    //         description: description,
+    //         dueDate: dueDate
+    //     };
+    
+    //     try {
+    //         // const response = await fetch("http://localhost:5000/api/todos", {
+    //             const response = await fetch(`${API_BASE_URL}/api/todos`, {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 "Authorization": `Bearer ${token}` // Ensure token is sent
+    //             },
+    //             body: JSON.stringify(newTodo),
+    //         });
+    
+    //         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    
+    //         const data = await response.json();
+    //         console.log("Task added:", data);
+    //     } catch (error) {
+    //         console.error("Failed to add task:", error);
+    //     }
+    // };
+
     const handleDelete = async (id) => {
         const token = localStorage.getItem("token");
         try {
-            const response = await fetch(`http://localhost:5000/api/todos/${id}`, {
-                 method: "DELETE",
-                 headers: {
+            const response = await fetch(`${API_BASE_URL}/api/todos/${id}`, { 
+                method: "DELETE",
+                headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}` // Ensure token is sent
+                    "Authorization": `Bearer ${token}`
                 }
-                 });
+            });
+    
             if (!response.ok) throw new Error("Failed to delete task");
-
+    
+            // Update state after successful deletion
             setTodos(todos.filter(todo => todo._id !== id));
         } catch (error) {
             setError(error.message);
         }
     };
+    
+
+    // const handleDelete = async (id) => {
+    //     const token = localStorage.getItem("token");
+    //     try {
+    //         // const response = await fetch(`http://localhost:5000/api/todos/${id}`, {
+    //             const response = await fetch(`${API_BASE_URL}/api/todos/${id}`, { 
+
+    //              method: "DELETE",
+    //              headers: {
+    //                 "Content-Type": "application/json",
+    //                 "Authorization": `Bearer ${token}` // Ensure token is sent
+    //             }
+    //              });
+    //         if (!response.ok) throw new Error("Failed to delete task");
+
+    //         setTodos(todos.filter(todo => todo._id !== id));
+    //     } catch (error) {
+    //         setError(error.message);
+    //     }
+    // };
 
     if (error) return <div className="text-red-500">Error: {error}</div>;
 
