@@ -1,3 +1,4 @@
+// Login.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -19,15 +20,49 @@ function Login() {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen">
-            <form className="p-6 bg-white shadow-lg rounded-lg" onSubmit={handleSubmit}>
-                <h2 className="text-lg font-bold mb-4">Login</h2>
-                <input className="border p-2 w-full mb-2" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                <input className="border p-2 w-full mb-2" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                <button className="bg-blue-500 text-white px-4 py-2 rounded" type="submit">Login</button>
+        <div className="flex justify-center items-center min-h-screen bg-black text-white">
+            <form className="p-6 bg-gray-900 shadow-lg rounded-lg" onSubmit={handleSubmit}>
+                <h2 className="text-lg font-bold mb-4 text-blue-400">Login</h2>
+                <input className="border p-2 w-full mb-2 bg-gray-800 text-white" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                <input className="border p-2 w-full mb-2 bg-gray-800 text-white" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full" type="submit">Login</button>
             </form>
         </div>
     );
 }
 
 export default Login;
+
+// import { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import axios from "axios";
+
+// function Login() {
+//     const [email, setEmail] = useState("");
+//     const [password, setPassword] = useState("");
+//     const navigate = useNavigate();
+
+//     const handleSubmit = async (e) => {
+//         e.preventDefault();
+//         try {
+//             const res = await axios.post("http://localhost:5000/api/users/login", { email, password });
+//             localStorage.setItem("token", res.data.token);
+//             navigate("/todos");
+//         } catch (err) {
+//             alert("Invalid credentials");
+//         }
+//     };
+
+//     return (
+//         <div className="flex justify-center items-center min-h-screen">
+//             <form className="p-6 bg-white shadow-lg rounded-lg" onSubmit={handleSubmit}>
+//                 <h2 className="text-lg font-bold mb-4">Login</h2>
+//                 <input className="border p-2 w-full mb-2" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+//                 <input className="border p-2 w-full mb-2" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+//                 <button className="bg-blue-500 text-white px-4 py-2 rounded" type="submit">Login</button>
+//             </form>
+//         </div>
+//     );
+// }
+
+// export default Login;
