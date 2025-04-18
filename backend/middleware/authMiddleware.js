@@ -9,9 +9,7 @@ const authMiddleware = async (req, res, next) => {
   if (!token || !token.startsWith("Bearer ")) {
       return res.status(401).json({ message: "Invalid token format" });
   }
-  
-
-  
+    
 
   const extractedToken = token.split(" ")[1]; // Remove "Bearer"
   console.log("Extracted Token:", extractedToken); // Debugging
