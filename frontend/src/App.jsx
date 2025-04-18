@@ -5,18 +5,22 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import NavBar from "./components/NavBar";
 import ErrorBoundary from "./components/ErrorBoundary";
+import EntitySelector from "./components/EntitySelector";
 
 function App() {
     return (
         <Router>
             <ErrorBoundary>
-                <div className="flex flex-col min-h-screen bg-[url('/background2.webp')] bg-cover bg-center bg-no-repeat">
+                {/* <div className="flex flex-col min-h-screen bg-[url('/background2.webp')] bg-cover bg-center bg-no-repeat"> */}
+                <div>
                     <NavBar />  {/* Add a Navigation Bar */}
                     <Routes>
                         <Route path="/" element={<Login />} />
                         <Route path="/signup" element={<Signup />} />
                         <Route path="/todos" element={<TodoList />} />
+                        <Route path="/sql" element={<EntitySelector />} />
                     </Routes>
+                    
                 </div>
             </ErrorBoundary>
         </Router>
