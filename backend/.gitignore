@@ -1,1 +1,3 @@
 S:\Coding\Kalvium\S85_TODO_List\backend\config\.env
+# Ignore .env file
+backend/config/.env

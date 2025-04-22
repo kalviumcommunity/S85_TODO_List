@@ -20,28 +20,37 @@ router.post("/signup", async (req, res) => {
 
 // Login Route
 router.post("/login", async (req, res) => {
-  try {
-      const { email, password } = req.body;
-      const user = await User.findOne({ email });
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
 
-      if (!user) {
-          console.log("User not found");
-          return res.status(401).json({ message: "Invalid credentials" });
-      }
+        if (!user) {
+            console.log("User not found");
+            return res.status(401).json({ message: "Invalid credentials" });
+        }
 
-      const isMatch = await bcrypt.compare(password, user.password);
-      console.log("Password match:", isMatch);
+        const isMatch = await bcrypt.compare(password, user.password);
+        console.log("Password match:", isMatch);
 
-      if (!isMatch) {
-          return res.status(401).json({ message: "Invalid credentials" });
-      }
+        if (!isMatch) {
+            return res.status(401).json({ message: "Invalid credentials" });
+        }
 
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-      res.json({ token });
-  } catch (error) {
-      res.status(500).json({ error: error.message });
-  }
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        res
+            .cookie("username", user.name, {
+                httpOnly: true,
+                secure: false, // set to true if using HTTPS
+                maxAge: 3600000 // 1 hour
+            })
+            .json({ message: "Login successful", username: user.name });
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
+
+
 
 
 // Middleware to check JWT
@@ -67,5 +76,24 @@ router.get("/me", authMiddleware, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+
+// For Cookies
+
+router.post("/logout", (req, res) => {
+    res.clearCookie("username");
+    res.json({ message: "Logged out successfully" });
+});
+
+
+router.get("/check-auth", (req, res) => {
+    const username = req.cookies.username;
+    if (username) {
+        res.json({ isAuthenticated: true, username });
+    } else {
+        res.json({ isAuthenticated: false });
+    }
+});
+
 
 module.exports = router;

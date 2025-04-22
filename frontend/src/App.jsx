@@ -11,8 +11,8 @@ function App() {
     return (
         <Router>
             <ErrorBoundary>
-                {/* <div className="flex flex-col min-h-screen bg-[url('/background2.webp')] bg-cover bg-center bg-no-repeat"> */}
-                <div>
+                <div className="flex flex-col min-h-screen bg-[url('/background2.webp')] bg-cover bg-center bg-no-repeat">
+                {/* <div> */}
                     <NavBar />  {/* Add a Navigation Bar */}
                     <Routes>
                         <Route path="/" element={<Login />} />
