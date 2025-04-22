@@ -3,6 +3,8 @@ const connectDB = require('./Database/db');
 const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+
 
 const app = express();
 
@@ -14,6 +16,7 @@ connectDB();
 
 // Middleware
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors());
 
 // Import Routes (✅ FIXED PATHS)
