@@ -25,23 +25,21 @@ router.post("/login", async (req, res) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            console.log("User not found");
             return res.status(401).json({ message: "Invalid credentials" });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
-        console.log("Password match:", isMatch);
-
         if (!isMatch) {
             return res.status(401).json({ message: "Invalid credentials" });
         }
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
         res
-            .cookie("username", user.name, {
+            .cookie("token", token, {
                 httpOnly: true,
-                secure: false, // set to true if using HTTPS
-                maxAge: 3600000 // 1 hour
+                secure: false, // Set to true in production with HTTPS
+                maxAge: 3600000, // 1 hour
             })
             .json({ message: "Login successful", username: user.name });
 
@@ -50,24 +48,30 @@ router.post("/login", async (req, res) => {
     }
 });
 
+// Logout Route
+router.post("/logout", (req, res) => {
+    res.clearCookie("token");
+    res.json({ message: "Logged out successfully" });
+});
 
-
-
-// Middleware to check JWT
-const authMiddleware = (req, res, next) => {
-    const token = req.header("Authorization");
-    if (!token) return res.status(401).json({ message: "Access denied" });
-
-    try {
-        const verified = jwt.verify(token.replace("Bearer ", ""), process.env.JWT_SECRET);
-        req.user = verified;
-        next();
-    } catch (err) {
-        res.status(400).json({ message: "Invalid token" });
+// Check Auth (from cookie)
+router.get("/check-auth", (req, res) => {
+    const token = req.cookies.token;
+    if (token) {
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            res.json({ isAuthenticated: true, userId: decoded.id });
+        } catch (err) {
+            res.json({ isAuthenticated: false });
+        }
+    } else {
+        res.json({ isAuthenticated: false });
     }
-};
+});
 
-// Get User Data (Protected)
+// Protected route
+const authMiddleware = require("../middleware/authMiddleware");
+
 router.get("/me", authMiddleware, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select("-password");
@@ -76,24 +80,5 @@ router.get("/me", authMiddleware, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
-
-// For Cookies
-
-router.post("/logout", (req, res) => {
-    res.clearCookie("username");
-    res.json({ message: "Logged out successfully" });
-});
-
-
-router.get("/check-auth", (req, res) => {
-    const username = req.cookies.username;
-    if (username) {
-        res.json({ isAuthenticated: true, username });
-    } else {
-        res.json({ isAuthenticated: false });
-    }
-});
-
 
 module.exports = router;
